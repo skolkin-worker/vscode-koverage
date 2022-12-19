@@ -30,8 +30,8 @@ export class FilesLoader {
         if (vscode.workspace.workspaceFolders) {
             for (const workspaceFolder of vscode.workspace.workspaceFolders) {
                 for (const filePath of filesPaths) {
-                    for (const fileName of fileNames) {
-                        
+                    for (let fileName of fileNames) {
+                        fileName = this.normalizePath(fileName);
                         const coverageFileFullPath = await this.globFind(workspaceFolder, fileName, filePath);
 
                         for (var f of coverageFileFullPath) {
@@ -78,6 +78,19 @@ export class FilesLoader {
                 },
             );
         });
+    }
+
+    private normalizePath(path: string): string {
+        for (const searchPath in this.configStore.current.pathMappings) {
+            if (Object.prototype.hasOwnProperty.call(this.configStore.current.pathMappings, searchPath)) {
+                const replacePath = this.configStore.current.pathMappings[searchPath];
+                if (path.match(searchPath)) {
+                    return path.replace(searchPath, replacePath);
+                }
+            }
+        }
+
+        return path;
     }
 
     private load(path: string): Promise<string> {

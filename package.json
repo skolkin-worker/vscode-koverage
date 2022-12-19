@@ -55,6 +55,11 @@
 					"type": "number",
 					"default": 70,
 					"description": "coverage threshold considered sufficient"
+				},
+				"koverage.pathMappings": {
+					"type": "object",
+					"default": {},
+					"description": "source map in coverage file"
 				}
 			}
 		},
@@ -123,6 +128,5 @@
 		"lcov-parse": "1.0.0",
 		"rxjs": "^6.5.5"
 	},
-	"overrides": {
-	}
+	"overrides": {}
 }
